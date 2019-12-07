@@ -1,0 +1,61 @@
+<% layout('panel') -%>
+<%if(message.length >0){%>
+<div class="alert alert-info">
+    <div class="container">
+        <div class="alert-icon">
+            <i class="material-icons">info_outline</i>
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+        </button>
+        <b>Info alert:</b>
+        <%= message %>
+    </div>
+</div>
+<%  } %>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Add a Schedule</h4>
+
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Conflict Name</label>
+                                <input type="text" class="form-control" name="conflictname">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Availability</label>
+                                <input type="datetime-local" class="form-control" name="availability">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Partiesin Conflict (Sepreated by comma)</label>
+                                <input type="text" class="form-control" name="partiesinconflict">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group bmd-form-group">
+                                <label class="bmd-label-floating">Description</label>
+                                <input type="text" name="description" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn btn-primary pull-right">Add Schedule</button>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

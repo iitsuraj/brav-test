@@ -1,0 +1,40 @@
+{
+    "name": "brav",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "license": "ISC",
+    "dependencies": {
+        "async": "^3.1.0",
+        "bcrypt-nodejs": "0.0.3",
+        "body-parser": "^1.19.0",
+        "compression": "^1.7.4",
+        "connect-mongo": "^2.0.3",
+        "cookie-parser": "^1.4.4",
+        "csurf": "^1.10.0",
+        "ejs": "^2.6.1",
+        "ejs-mate": "^3.0.0",
+        "express": "^4.16.4",
+        "express-flash": "0.0.2",
+        "express-session": "^1.16.1",
+        "handlebars": "^4.5.3",
+        "helmet": "^3.20.1",
+        "instamojo-nodejs": "0.0.5",
+        "json2csv": "^4.5.4",
+        "moment": "^2.24.0",
+        "mongoose": "^5.5.6",
+        "morgan": "^1.9.1",
+        "multer": "^1.4.2",
+        "nodemailer": "^6.2.1",
+        "nodemailer-smtp-transport": "^2.7.4",
+        "nodemon": "^1.19.0",
+        "passport": "^0.4.0",
+        "passport-local": "^1.0.0",
+        "q": "^1.5.1",
+        "randomstring": "^1.1.5",
+        "shortid": "^2.2.14"
+    }
+}
