@@ -1,0 +1,39 @@
+<% layout('panel') -%>
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="table-responsive">
+            <table class="table table-shopping">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Title</th>
+                        <th>Time</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%if(mettings.length>0){%>
+                    <%for(var i =0 ; i<mettings.length; i++){%> <tr>
+                        <td>
+                            <%= mettings[i].from.username%>
+                        </td>
+                        <td>
+                            <%= mettings[i].title%>
+                        </td>
+                        <td>
+                            <%= mettings[i].start%>
+                        </td>
+                        <td>
+                            <%= mettings[i]._id%>
+                        </td>
+                    </tr>
+
+                    <%}%>
+                        <%} else {%>
+                    You Dont have any mettings
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

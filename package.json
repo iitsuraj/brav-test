@@ -35,6 +35,7 @@
         "passport-local": "^1.0.0",
         "q": "^1.5.1",
         "randomstring": "^1.1.5",
-        "shortid": "^2.2.14"
+        "shortid": "^2.2.14",
+        "simplewebrtc": "^3.0.2"
     }
 }

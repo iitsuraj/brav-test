@@ -5,13 +5,12 @@ var crypto = require("crypto");
 
 var ScheduleSchema = new Schema(
   {
-    conflictname: {
-      type: String,
-      lowercase: true
-    },
-    availability: { type: Date, default: Date.now() },
-    partiesinconflict: [String],
-    description: String
+    from: { type: Schema.Types.ObjectId, ref: "User" },
+    to: { type: Schema.Types.ObjectId, ref: "User" },
+    start: { type: Date, default: Date.now() },
+    title: String,
+    accept: { type: Boolean, default: false },
+    passcode: { type: String }
   },
   {
     timestamps: {

@@ -49,6 +49,8 @@ app.use(
 );
 var oneYear = 1 * 365 * 24 * 60 * 60 * 1000;
 app.use(express.static(__dirname + "/public", { maxAge: oneYear }));
+
+app.use("/scripts", express.static(`${__dirname}/node_modules/`));
 app.use(helmet());
 app.use(morgan("dev"));
 app.use(bodyParser.json());

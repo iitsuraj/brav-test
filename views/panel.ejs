@@ -10,6 +10,94 @@
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 
+    <script src="/scripts/simplewebrtc/out/simplewebrtc-with-adapter.bundle.js"></script>
+    <script src="/panel/assets/js/core/jquery.min.js"></script>
+    <script type="text/javascript">
+        window.addEventListener('load', () => {
+
+            // Local Video
+            const localImageEl = $('#local-image');
+            const localVideoEl = $('#local-video');
+
+            const remoteImageEl = $('#remote-img');
+
+            // Remote Videos
+            const remoteVideosEl = $('#remote-videos');
+
+            // Hide cameras until they are initialized
+            localVideoEl.hide();
+
+            // create our webrtc connection
+            const webrtc = new SimpleWebRTC({
+                // the id/element dom element that will hold "our" video
+                localVideoEl: 'local-video',
+                // the id/element dom element that will hold remote videos
+                remoteVideosEl: 'remote-videos',
+                // immediately ask for camera access
+                autoRequestMedia: true,
+                debug: false,
+                detectSpeakingEvents: true,
+                autoAdjustMic: false,
+            });
+
+            // We got access to local camera
+            webrtc.on('localStream', () => {
+                localImageEl.hide();
+                localVideoEl.show();
+            });
+
+            // Remote video was added
+            webrtc.on('videoAdded', (video, peer) => {
+                // eslint-disable-next-line no-console
+                console.log("new video");
+                remoteImageEl.hide();
+                remoteVideosEl.html(video);
+                // const id = webrtc.getDomId(peer);
+                // const html = remoteVideoTemplate({
+                //     id
+                // });
+                // if (remoteVideosCount === 0) {
+                //     remoteVideosEl.html(html);
+                // } else {
+                //     remoteVideosEl.append(html);
+                // }
+                // $(`#${id}`).html(video);
+                // $(`#${id} video`).addClass('ui image medium'); // Make video element responsive
+                // remoteVideosCount += 1;
+            });
+            // Register new Chat Room
+            const createRoom = (roomName) => {
+                // eslint-disable-next-line no-console
+                console.info(`Creating new room: ${roomName}`);
+                webrtc.createRoom(roomName, (err, name) => {
+                    console.log(err)
+                    console.log(name)
+                });
+            };
+
+
+            "<%= typeof metting!='undefined' ? metting : metting= ''  %>"
+            if ("<%= metting%>".length > 0) {
+
+                createRoom("<%= metting%>")
+            }
+            // Join existing Chat Room
+            "<%= typeof passcode!='undefined' ? passcode : passcode = '' %>"
+            const joinRoom = (roomName) => {
+                // eslint-disable-next-line no-console
+                console.log(`Joining Room: ${roomName}`);
+                webrtc.joinRoom(roomName, (err, data) => {
+                    console.log(err)
+                    console.log(data)
+                });
+                // showChatRoom(roomName);
+                // postMessage(`${username} joined chatroom`);
+            };
+            if ("<%= passcode%>".length > 0) {
+                joinRoom("<%= passcode%>")
+            }
+        });
+    </script>
     <link rel="stylesheet" href="/panel/assets/css/material-dashboard.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
 
@@ -28,7 +116,6 @@
         </div>
     </div>
 
-    <script src="/panel/assets/js/core/jquery.min.js"></script>
     <script src="/panel/assets/js/core/popper.min.js"></script>
     <script src="/panel/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
     <script src="/panel/assets/js/core/bootstrap-material-design.min.js"></script>
@@ -40,19 +127,16 @@
     <script>
         $(document).ready(function () {
             var calendar = $('#calendar').fullCalendar({
-                editable: true,
                 header: {
                     left: 'prev,',
                     center: 'title',
                     right: 'next'
                 },
                 events: '/data',
-                selectable: false,
-                selectHelper: false,
-                editable: false,
             });
         });
     </script>
+
 </body>
 
 </html>

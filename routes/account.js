@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var User = require("../models/user");
+var Schedule = require("../models/schedule");
 var id = require("shortid");
 var passport = require("passport");
 var passportConf = require("../config/passport");
@@ -81,6 +82,11 @@ router.post("/profile", passportConf.isAuthenticated, function(req, res, next) {
     }
   });
 });
+router.get("/data", passportConf.isAuthenticated, function(req, res, next) {
+  Schedule.find({ from: req.user._id }, function(err, data) {
+    res.json(data);
+  });
+});
 router.get("/addaschedule", passportConf.isAuthenticated, function(
   req,
   res,
@@ -93,24 +99,59 @@ router.post("/addaschedule", passportConf.isAuthenticated, function(
   res,
   next
 ) {
-  User.findById({ _id: req.user._id }, function(err, user) {
-    if (user) {
-      user.schedule.push({
-        conflictname: req.body.conflictname,
-        start: req.body.availability,
-        partiesinconflict: req.body.partiesinconflict.split(","),
-        title: req.body.description
-      });
-      user.save(err => {
-        req.flash("message", "Added");
-        res.redirect("/");
-      });
+  if (req.body.conflictname.toLowerCase() === req.user.username) {
+    req.flash("message", "Okk Set a alarm for u");
+    res.redirect("/addaschedule");
+    return 0;
+  }
+  User.findOne({ username: req.body.conflictname.toLowerCase() }, function(
+    err,
+    user
+  ) {
+    if (err) return next(err);
+    // console.log(user)
+    if (!user) {
+      req.flash("message", "No username found with this username");
+      res.redirect("/addaschedule");
+      return 0;
     }
+    var schedule = new Schedule();
+    schedule.from = req.user._id;
+    schedule.to = user._id;
+    schedule.start = req.body.availability;
+    schedule.title = req.body.description;
+    schedule.passcode = id.generate();
+    schedule.save(function(err) {
+      req.flash("message", "Added Sucessfully");
+      res.redirect("/addaschedule");
+    });
   });
 });
-router.get("/data", passportConf.isAuthenticated, function(req, res, next) {
-  User.findById({ _id: req.user._id }, function(err, user) {
-    res.json(user.schedule);
-  });
+
+router.get("/call", passportConf.isAuthenticated, function(req, res, next) {
+  res.render("brav/call");
+});
+router.post("/call", passportConf.isAuthenticated, function(req, res, next) {
+  if (req.body.roomid) {
+    Schedule.findById({ _id: req.body.roomid }).exec((err, metting) => {
+      if (!metting) {
+        req.flash("message", "no metting");
+        res.redirect("/");
+        return 0;
+      }
+      res.render("brav/roomcreate", { metting: metting.passcode });
+    });
+  } else {
+    res.render("brav/roomcreate", { passcode: req.body.roompassword });
+  }
+});
+router.get("/mettings", passportConf.isAuthenticated, function(req, res, next) {
+  Schedule.find({ to: req.user._id })
+    .sort({ createdAt: -1 })
+    .populate("from", ["username"])
+    .exec(function(err, mettings) {
+      res.render("brav/metting", { mettings: mettings });
+      // console.log(mettings);
+    });
 });
 module.exports = router;

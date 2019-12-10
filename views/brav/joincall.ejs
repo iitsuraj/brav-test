@@ -1,0 +1,49 @@
+<% layout('panel') -%>
+<style>
+    #localvideo video {
+        width: 100%;
+    }
+</style>
+<div class="row">
+
+    <div class="col-md-6">
+        <div id="localimg"><img width="100%" src="/img/image.png" alt=""></div>
+        <div id="localvideo"></div>
+    </div>
+    <div class="col-md-6">
+        <div id="remoteimg"><img src="/img/image.png" width="100%" alt=""></div>
+        <div id="remotevideo"></div>
+    </div>
+</div>
+
+<script src="scripts/simplewebrtc/out/simplewebrtc-with-adapter.bundle.js"></script>
+<script>
+    // Local Video
+    const localImageEl = $('#localimg');
+    const localVideoEl = $('#localvideo');
+    const remoteImageEl = $('#remoteimg');
+    const remoteVideoEl = $('#remotevideo');
+    const webrtc = new SimpleWebRTC({
+        // the id/element dom element that will hold "our" video
+        localVideoEl: 'localvideo',
+        // the id/element dom element that will hold remote videos
+        remoteVideosEl: 'remotevideo',
+        // immediately ask for camera access
+        autoRequestMedia: true,
+    });
+
+    webrtc.on('localStream', () => {
+        localImageEl.hide();
+        localVideoEl.show();
+    });
+    webrtc.on('readyToCall', function () {
+        console.log("Ready to call")
+        webrtc.joinRoom("5dee046cbb208d2a40a61123", (err, roominfo) => {
+            if (err) {
+                console.log(err)
+                return 0
+            }
+            console.log(roominfo)
+        });
+    });
+</script>

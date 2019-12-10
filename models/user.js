@@ -14,18 +14,7 @@ var UserSchema = new Schema(
     birthday: { type: Date, default: Date.now() },
     username: { type: String, unique: true, required: true, lowercase: true },
     email: { type: String, unique: true, required: true, lowercase: true },
-    password: String,
-    schedule: [
-      {
-        conflictname: {
-          type: String,
-          lowercase: true
-        },
-        start: { type: Date, default: Date.now() },
-        partiesinconflict: [String],
-        title: String
-      }
-    ]
+    password: String
   },
   {
     timestamps: {

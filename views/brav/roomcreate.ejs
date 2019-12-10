@@ -1,0 +1,22 @@
+<% layout('panel') -%>
+<style>
+    #local-video video {
+        width: 100%;
+    }
+
+    #remote-videos video {
+        width: 100%;
+    }
+</style>
+<h5>Please share this password <%= metting%></h5>
+<div class="row">
+
+    <div class="col-md-6">
+        <div id="local-image"><img width="100%" src="/img/image.png" alt=""></div>
+        <div id="local-video"></div>
+    </div>
+    <div class="col-md-6">
+        <div id="remote-img"><img src="/img/image.png" width="100%" alt=""></div>
+        <div id="remote-videos"></div>
+    </div>
+</div>
