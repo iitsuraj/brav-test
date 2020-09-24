@@ -23,7 +23,7 @@
         "handlebars": "^4.5.3",
         "helmet": "^3.20.1",
         "instamojo-nodejs": "0.0.5",
-        "json2csv": "^4.5.4",
+        "json2csv": "^5.0.3",
         "moment": "^2.24.0",
         "mongoose": "^5.5.6",
         "morgan": "^1.9.1",
